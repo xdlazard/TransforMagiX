@@ -19,7 +19,9 @@ TransforMagiX is a small .NET 8 library of serialization helpers and utilities t
 
 Configure behavior with `SerializationConfiguration`:
 
-using TransforMagiX; using System.Globalization;
+using TransforMagiX; 
+using System.Globalization;
+
 var config = new SerializationConfiguration { MaxDepth = 32, EnableCompression = false, MaxRetries = 3, RetryDelay = TimeSpan.FromMilliseconds(100), MaxInputLength = 1_000_000, Culture = CultureInfo.InvariantCulture, BatchSize = 100 };
 
 JSON examples:
