@@ -1,7 +1,5 @@
 # TransforMagiX
 
-# TransforMagiX
-
 TransforMagiX is a small .NET 8 library of serialization helpers and utilities that simplify common data transformation tasks across services and tooling. It provides high-level extension methods for JSON, XML and CSV serialization/deserialization, optional GZip compression, retry logic and small reflection utilities.
 
 ## Key features
