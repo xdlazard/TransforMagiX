@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransforMagiX", "TransforMagiX.csproj", "{11FCBF6C-221F-4BE9-97F3-AFB9D2A25F3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransforMagiXTests", "..\TransforMagiXTests\TransforMagiXTests.csproj", "{AE9AD151-9040-41AE-9CD4-7D1F231144CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{11FCBF6C-221F-4BE9-97F3-AFB9D2A25F3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11FCBF6C-221F-4BE9-97F3-AFB9D2A25F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11FCBF6C-221F-4BE9-97F3-AFB9D2A25F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11FCBF6C-221F-4BE9-97F3-AFB9D2A25F3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE9AD151-9040-41AE-9CD4-7D1F231144CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE9AD151-9040-41AE-9CD4-7D1F231144CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE9AD151-9040-41AE-9CD4-7D1F231144CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE9AD151-9040-41AE-9CD4-7D1F231144CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
