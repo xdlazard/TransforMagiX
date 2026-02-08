@@ -35,10 +35,7 @@ namespace TransforMagiX
         /// <param name="config">The serialization configuration.</param>
         private static void ValidateInput(string input, SerializationConfiguration config)
         {
-            if (input == null)
-            {
-                throw new ArgumentNullException(nameof(input));
-            }
+            ArgumentNullException.ThrowIfNull(input);
 
             if (input.Length > config.MaxInputLength)
             {
@@ -679,5 +676,103 @@ namespace TransforMagiX
             return enumerableType?.GenericTypeArguments[0];
         }
 
+        // Writes CSV for a collection to disk (synchronous).
+        public static void WriteCsvToFile<T>(this IEnumerable<T> objects, string path, string delimiter = ",", bool includeHeader = true)
+        {
+            ArgumentNullException.ThrowIfNull(objects);
+            if (string.IsNullOrWhiteSpace(path)) throw new ArgumentException("Path is required.", nameof(path));
+
+            // Ensure directory exists
+            var directory = Path.GetDirectoryName(path);
+            if (!string.IsNullOrEmpty(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            var csv = objects.ToCsv(delimiter, includeHeader) ?? string.Empty;
+            File.WriteAllText(path, csv, System.Text.Encoding.UTF8);
+        }
+
+        // Writes CSV for a collection to disk (async, uses existing ToCsvAsync and supports config/cancellation).
+        public static async Task WriteCsvToFileAsync<T>(this IEnumerable<T> objects, string path, SerializationConfiguration config = null, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(objects);
+            if (string.IsNullOrWhiteSpace(path)) throw new ArgumentException("Path is required.", nameof(path));
+
+            var directory = Path.GetDirectoryName(path);
+            if (!string.IsNullOrEmpty(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            var csv = await objects.ToCsvAsync(config, cancellationToken).ConfigureAwait(false) ?? string.Empty;
+            await File.WriteAllTextAsync(path, csv, System.Text.Encoding.UTF8, cancellationToken).ConfigureAwait(false);
+        }
+
+        // Writes JSON for an object to disk (synchronous).
+        public static void WriteJsonToFile<T>(this T obj, string path, JsonSerializerOptions options)
+        {
+            ArgumentNullException.ThrowIfNull(obj);
+            if (string.IsNullOrWhiteSpace(path)) throw new ArgumentException("Path is required.", nameof(path));
+
+            var directory = Path.GetDirectoryName(path);
+            if (!string.IsNullOrEmpty(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            var json = JsonSerializer.Serialize(obj, options);
+            File.WriteAllText(path, json, System.Text.Encoding.UTF8);
+        }
+
+        // Writes JSON for an object to disk (async). Respects SerializationConfiguration when provided
+        // by delegating to existing ToJsonAsync (so compression, retries, etc. are honored).
+        public static async Task WriteJsonToFileAsync<T>(this T obj, string path, JsonSerializerOptions options = null, SerializationConfiguration config = null, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(obj);
+            if (string.IsNullOrWhiteSpace(path)) throw new ArgumentException("Path is required.", nameof(path));
+
+            var directory = Path.GetDirectoryName(path);
+            if (!string.IsNullOrEmpty(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            var json = await obj.ToJsonAsync(options, config, cancellationToken).ConfigureAwait(false) ?? string.Empty;
+            await File.WriteAllTextAsync(path, json, System.Text.Encoding.UTF8, cancellationToken).ConfigureAwait(false);
+        }
+
+        // Writes XML for an object to disk (synchronous).
+        public static void WriteXmlToFile(this object obj, string path, XmlSerializerNamespaces namespaces = null, string rootElementName = null)
+        {
+            ArgumentNullException.ThrowIfNull(obj);
+            if (string.IsNullOrWhiteSpace(path)) throw new ArgumentException("Path is required.", nameof(path));
+
+            var directory = Path.GetDirectoryName(path);
+            if (!string.IsNullOrEmpty(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            var xml = obj.ToXml(namespaces, rootElementName);
+            File.WriteAllText(path, xml, System.Text.Encoding.UTF8);
+        }
+
+        // Writes XML for an object to disk (async).
+        public static async Task WriteXmlToFileAsync(this object obj, string path, XmlSerializerNamespaces namespaces = null, string rootElementName = null, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(obj);
+            if (string.IsNullOrWhiteSpace(path)) throw new ArgumentException("Path is required.", nameof(path));
+
+            var directory = Path.GetDirectoryName(path);
+            if (!string.IsNullOrEmpty(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            // ToXml is synchronous; call it then write asynchronously.
+            var xml = obj.ToXml(namespaces, rootElementName);
+            await File.WriteAllTextAsync(path, xml, System.Text.Encoding.UTF8, cancellationToken).ConfigureAwait(false);
+        }
     }
 }
